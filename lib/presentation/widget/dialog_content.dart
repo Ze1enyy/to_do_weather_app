@@ -3,7 +3,11 @@ import 'package:to_do_app/backbone/di.dart';
 import 'package:to_do_app/presentation/bloc/task/bloc/task_bloc.dart';
 
 class DialogContent extends StatefulWidget {
-  const DialogContent({super.key});
+  const DialogContent({
+    super.key,
+    this.selectedFilter,
+  });
+  final String? selectedFilter;
 
   @override
   State<DialogContent> createState() => _DialogContentState();
@@ -51,7 +55,7 @@ class _DialogContentState extends State<DialogContent> {
             },
           ),
           DropdownButton(
-            value: _selectedItem ?? items[0],
+            value: _selectedItem,
             items: List.from(items)
                 .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                 .toList(),
@@ -76,10 +80,16 @@ class _DialogContentState extends State<DialogContent> {
                     _descriptionTextController.text.isNotEmpty &&
                     _selectedItem != null
                 ? () {
-                    _bloc.add(AddTaskEvent(
-                        title: _titleTextController.text,
-                        description: _descriptionTextController.text,
-                        category: _selectedItem!));
+                    for (int i = 0; i < 5; i++)
+                      _bloc.add(AddTaskEvent(
+                          title: _titleTextController.text,
+                          description: _descriptionTextController.text,
+                          category: _selectedItem!));
+                    if (widget.selectedFilter != null) {
+                      _bloc.add(FilterByCategoryEvent(widget.selectedFilter!));
+                    } else {
+                      _bloc.add(const GetTasksEvent());
+                    }
                     Navigator.pop(context);
                   }
                 : null,

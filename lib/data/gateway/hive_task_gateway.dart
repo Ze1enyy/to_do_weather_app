@@ -21,14 +21,26 @@ class HiveTaskGateway {
     if (_taskBox == null) {
       await openBox();
     }
+
+    _taskBox?.watch().listen((event) {
+      print(event.value);
+    });
     return _taskBox!.values.toList();
   }
 
+  Future<List<Task>> getFilteredTasks(String category) async {
+    return _taskBox!.values
+        .toList()
+        .where((task) => task.category == category)
+        .toList();
+  }
+
   Future<void> removeTask(int index) async {
+    print(_taskBox?.values.elementAt(index).title);
     await _taskBox?.deleteAt(index);
   }
 
-  Future<void> updateCompletedStatus({required int index}) async {
+  Future<void> updateTaskStatus(int index) async {
     final task = _taskBox?.getAt(index);
     Task newTask = task!;
     await _taskBox!.putAt(

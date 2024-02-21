@@ -2,15 +2,18 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:to_do_app/domain/entity/task.dart';
 import 'package:to_do_app/domain/usecases/add_task_usecase.dart';
+import 'package:to_do_app/domain/usecases/get_filtered_tasks.dart';
 import 'package:to_do_app/domain/usecases/get_task_usecase.dart';
 import 'package:to_do_app/domain/usecases/remove_task_usecase.dart';
+import 'package:to_do_app/domain/usecases/update_task_usecase.dart';
 
 part 'task_event.dart';
 part 'task_state.dart';
 part 'task_bloc.freezed.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  TaskBloc(this._addTaskUseCase, this._getTasksUseCase, this._removeTaskUseCase)
+  TaskBloc(this._addTaskUseCase, this._getTasksUseCase, this._removeTaskUseCase,
+      this._getFilteredTasksUseCase, this._updateTaskUseCase)
       : super(const _Initial()) {
     on<TaskEvent>((event, emit) async {
       await event.when(
@@ -22,14 +25,29 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               title: title, description: description, category: category);
         },
         removeTask: (index) {
-          return _removeTask(emit, index);
+          return _removeTask(index);
+        },
+        filterBy: (category) {
+          return _filterByCategory(emit, category);
+        },
+        updateTaskStatus: (index) {
+          return _updateTaskStatus(index);
         },
       );
     });
   }
 
-  Future<void> _removeTask(Emitter<TaskState> emit, int index) {
-    return _removeTaskUseCase.call(index).then((value) => _getTasks(emit));
+  Future<void> _removeTask(int index) {
+    return _removeTaskUseCase.call(index);
+  }
+
+  Future<void> _updateTaskStatus(int index) {
+    return _updateTaskUseCase(index);
+  }
+
+  Future<void> _filterByCategory(Emitter<TaskState> emit, String category) {
+    return _getFilteredTasksUseCase(category)
+        .then((value) => emit(_Loaded(value)));
   }
 
   Future<void> _getTasks(Emitter<TaskState> emit) {
@@ -40,12 +58,13 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       {required String title,
       required String description,
       required String category}) async {
-    await _addTaskUseCase
-        .call(title: title, description: description, category: category)
-        .then((value) => _getTasks(emit));
+    await _addTaskUseCase.call(
+        title: title, description: description, category: category);
   }
 
   final AddTaskUseCase _addTaskUseCase;
   final GetTasksUseCase _getTasksUseCase;
   final RemoveTaskUseCase _removeTaskUseCase;
+  final GetFilteredTasksUseCase _getFilteredTasksUseCase;
+  final UpdateTaskStatusUseCase _updateTaskUseCase;
 }

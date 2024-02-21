@@ -22,6 +22,8 @@ mixin _$TaskEvent {
     required TResult Function(String title, String description, String category)
         addTask,
     required TResult Function(int index) removeTask,
+    required TResult Function(int index) updateTaskStatus,
+    required TResult Function(String category) filterBy,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +32,8 @@ mixin _$TaskEvent {
     TResult? Function(String title, String description, String category)?
         addTask,
     TResult? Function(int index)? removeTask,
+    TResult? Function(int index)? updateTaskStatus,
+    TResult? Function(String category)? filterBy,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +42,8 @@ mixin _$TaskEvent {
     TResult Function(String title, String description, String category)?
         addTask,
     TResult Function(int index)? removeTask,
+    TResult Function(int index)? updateTaskStatus,
+    TResult Function(String category)? filterBy,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -46,6 +52,8 @@ mixin _$TaskEvent {
     required TResult Function(GetTasksEvent value) getTasks,
     required TResult Function(AddTaskEvent value) addTask,
     required TResult Function(RemoveTaskEvent value) removeTask,
+    required TResult Function(UpdateTaskStatus value) updateTaskStatus,
+    required TResult Function(FilterByCategoryEvent value) filterBy,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -53,6 +61,8 @@ mixin _$TaskEvent {
     TResult? Function(GetTasksEvent value)? getTasks,
     TResult? Function(AddTaskEvent value)? addTask,
     TResult? Function(RemoveTaskEvent value)? removeTask,
+    TResult? Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult? Function(FilterByCategoryEvent value)? filterBy,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -60,6 +70,8 @@ mixin _$TaskEvent {
     TResult Function(GetTasksEvent value)? getTasks,
     TResult Function(AddTaskEvent value)? addTask,
     TResult Function(RemoveTaskEvent value)? removeTask,
+    TResult Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult Function(FilterByCategoryEvent value)? filterBy,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -124,6 +136,8 @@ class _$GetTasksEventImpl implements GetTasksEvent {
     required TResult Function(String title, String description, String category)
         addTask,
     required TResult Function(int index) removeTask,
+    required TResult Function(int index) updateTaskStatus,
+    required TResult Function(String category) filterBy,
   }) {
     return getTasks();
   }
@@ -135,6 +149,8 @@ class _$GetTasksEventImpl implements GetTasksEvent {
     TResult? Function(String title, String description, String category)?
         addTask,
     TResult? Function(int index)? removeTask,
+    TResult? Function(int index)? updateTaskStatus,
+    TResult? Function(String category)? filterBy,
   }) {
     return getTasks?.call();
   }
@@ -146,6 +162,8 @@ class _$GetTasksEventImpl implements GetTasksEvent {
     TResult Function(String title, String description, String category)?
         addTask,
     TResult Function(int index)? removeTask,
+    TResult Function(int index)? updateTaskStatus,
+    TResult Function(String category)? filterBy,
     required TResult orElse(),
   }) {
     if (getTasks != null) {
@@ -160,6 +178,8 @@ class _$GetTasksEventImpl implements GetTasksEvent {
     required TResult Function(GetTasksEvent value) getTasks,
     required TResult Function(AddTaskEvent value) addTask,
     required TResult Function(RemoveTaskEvent value) removeTask,
+    required TResult Function(UpdateTaskStatus value) updateTaskStatus,
+    required TResult Function(FilterByCategoryEvent value) filterBy,
   }) {
     return getTasks(this);
   }
@@ -170,6 +190,8 @@ class _$GetTasksEventImpl implements GetTasksEvent {
     TResult? Function(GetTasksEvent value)? getTasks,
     TResult? Function(AddTaskEvent value)? addTask,
     TResult? Function(RemoveTaskEvent value)? removeTask,
+    TResult? Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult? Function(FilterByCategoryEvent value)? filterBy,
   }) {
     return getTasks?.call(this);
   }
@@ -180,6 +202,8 @@ class _$GetTasksEventImpl implements GetTasksEvent {
     TResult Function(GetTasksEvent value)? getTasks,
     TResult Function(AddTaskEvent value)? addTask,
     TResult Function(RemoveTaskEvent value)? removeTask,
+    TResult Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult Function(FilterByCategoryEvent value)? filterBy,
     required TResult orElse(),
   }) {
     if (getTasks != null) {
@@ -280,6 +304,8 @@ class _$AddTaskEventImpl implements AddTaskEvent {
     required TResult Function(String title, String description, String category)
         addTask,
     required TResult Function(int index) removeTask,
+    required TResult Function(int index) updateTaskStatus,
+    required TResult Function(String category) filterBy,
   }) {
     return addTask(title, description, category);
   }
@@ -291,6 +317,8 @@ class _$AddTaskEventImpl implements AddTaskEvent {
     TResult? Function(String title, String description, String category)?
         addTask,
     TResult? Function(int index)? removeTask,
+    TResult? Function(int index)? updateTaskStatus,
+    TResult? Function(String category)? filterBy,
   }) {
     return addTask?.call(title, description, category);
   }
@@ -302,6 +330,8 @@ class _$AddTaskEventImpl implements AddTaskEvent {
     TResult Function(String title, String description, String category)?
         addTask,
     TResult Function(int index)? removeTask,
+    TResult Function(int index)? updateTaskStatus,
+    TResult Function(String category)? filterBy,
     required TResult orElse(),
   }) {
     if (addTask != null) {
@@ -316,6 +346,8 @@ class _$AddTaskEventImpl implements AddTaskEvent {
     required TResult Function(GetTasksEvent value) getTasks,
     required TResult Function(AddTaskEvent value) addTask,
     required TResult Function(RemoveTaskEvent value) removeTask,
+    required TResult Function(UpdateTaskStatus value) updateTaskStatus,
+    required TResult Function(FilterByCategoryEvent value) filterBy,
   }) {
     return addTask(this);
   }
@@ -326,6 +358,8 @@ class _$AddTaskEventImpl implements AddTaskEvent {
     TResult? Function(GetTasksEvent value)? getTasks,
     TResult? Function(AddTaskEvent value)? addTask,
     TResult? Function(RemoveTaskEvent value)? removeTask,
+    TResult? Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult? Function(FilterByCategoryEvent value)? filterBy,
   }) {
     return addTask?.call(this);
   }
@@ -336,6 +370,8 @@ class _$AddTaskEventImpl implements AddTaskEvent {
     TResult Function(GetTasksEvent value)? getTasks,
     TResult Function(AddTaskEvent value)? addTask,
     TResult Function(RemoveTaskEvent value)? removeTask,
+    TResult Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult Function(FilterByCategoryEvent value)? filterBy,
     required TResult orElse(),
   }) {
     if (addTask != null) {
@@ -428,6 +464,8 @@ class _$RemoveTaskEventImpl implements RemoveTaskEvent {
     required TResult Function(String title, String description, String category)
         addTask,
     required TResult Function(int index) removeTask,
+    required TResult Function(int index) updateTaskStatus,
+    required TResult Function(String category) filterBy,
   }) {
     return removeTask(index);
   }
@@ -439,6 +477,8 @@ class _$RemoveTaskEventImpl implements RemoveTaskEvent {
     TResult? Function(String title, String description, String category)?
         addTask,
     TResult? Function(int index)? removeTask,
+    TResult? Function(int index)? updateTaskStatus,
+    TResult? Function(String category)? filterBy,
   }) {
     return removeTask?.call(index);
   }
@@ -450,6 +490,8 @@ class _$RemoveTaskEventImpl implements RemoveTaskEvent {
     TResult Function(String title, String description, String category)?
         addTask,
     TResult Function(int index)? removeTask,
+    TResult Function(int index)? updateTaskStatus,
+    TResult Function(String category)? filterBy,
     required TResult orElse(),
   }) {
     if (removeTask != null) {
@@ -464,6 +506,8 @@ class _$RemoveTaskEventImpl implements RemoveTaskEvent {
     required TResult Function(GetTasksEvent value) getTasks,
     required TResult Function(AddTaskEvent value) addTask,
     required TResult Function(RemoveTaskEvent value) removeTask,
+    required TResult Function(UpdateTaskStatus value) updateTaskStatus,
+    required TResult Function(FilterByCategoryEvent value) filterBy,
   }) {
     return removeTask(this);
   }
@@ -474,6 +518,8 @@ class _$RemoveTaskEventImpl implements RemoveTaskEvent {
     TResult? Function(GetTasksEvent value)? getTasks,
     TResult? Function(AddTaskEvent value)? addTask,
     TResult? Function(RemoveTaskEvent value)? removeTask,
+    TResult? Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult? Function(FilterByCategoryEvent value)? filterBy,
   }) {
     return removeTask?.call(this);
   }
@@ -484,6 +530,8 @@ class _$RemoveTaskEventImpl implements RemoveTaskEvent {
     TResult Function(GetTasksEvent value)? getTasks,
     TResult Function(AddTaskEvent value)? addTask,
     TResult Function(RemoveTaskEvent value)? removeTask,
+    TResult Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult Function(FilterByCategoryEvent value)? filterBy,
     required TResult orElse(),
   }) {
     if (removeTask != null) {
@@ -500,6 +548,319 @@ abstract class RemoveTaskEvent implements TaskEvent {
   @JsonKey(ignore: true)
   _$$RemoveTaskEventImplCopyWith<_$RemoveTaskEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateTaskStatusImplCopyWith<$Res> {
+  factory _$$UpdateTaskStatusImplCopyWith(_$UpdateTaskStatusImpl value,
+          $Res Function(_$UpdateTaskStatusImpl) then) =
+      __$$UpdateTaskStatusImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int index});
+}
+
+/// @nodoc
+class __$$UpdateTaskStatusImplCopyWithImpl<$Res>
+    extends _$TaskEventCopyWithImpl<$Res, _$UpdateTaskStatusImpl>
+    implements _$$UpdateTaskStatusImplCopyWith<$Res> {
+  __$$UpdateTaskStatusImplCopyWithImpl(_$UpdateTaskStatusImpl _value,
+      $Res Function(_$UpdateTaskStatusImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+  }) {
+    return _then(_$UpdateTaskStatusImpl(
+      null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdateTaskStatusImpl implements UpdateTaskStatus {
+  const _$UpdateTaskStatusImpl(this.index);
+
+  @override
+  final int index;
+
+  @override
+  String toString() {
+    return 'TaskEvent.updateTaskStatus(index: $index)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateTaskStatusImpl &&
+            (identical(other.index, index) || other.index == index));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, index);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateTaskStatusImplCopyWith<_$UpdateTaskStatusImpl> get copyWith =>
+      __$$UpdateTaskStatusImplCopyWithImpl<_$UpdateTaskStatusImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getTasks,
+    required TResult Function(String title, String description, String category)
+        addTask,
+    required TResult Function(int index) removeTask,
+    required TResult Function(int index) updateTaskStatus,
+    required TResult Function(String category) filterBy,
+  }) {
+    return updateTaskStatus(index);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? getTasks,
+    TResult? Function(String title, String description, String category)?
+        addTask,
+    TResult? Function(int index)? removeTask,
+    TResult? Function(int index)? updateTaskStatus,
+    TResult? Function(String category)? filterBy,
+  }) {
+    return updateTaskStatus?.call(index);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getTasks,
+    TResult Function(String title, String description, String category)?
+        addTask,
+    TResult Function(int index)? removeTask,
+    TResult Function(int index)? updateTaskStatus,
+    TResult Function(String category)? filterBy,
+    required TResult orElse(),
+  }) {
+    if (updateTaskStatus != null) {
+      return updateTaskStatus(index);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetTasksEvent value) getTasks,
+    required TResult Function(AddTaskEvent value) addTask,
+    required TResult Function(RemoveTaskEvent value) removeTask,
+    required TResult Function(UpdateTaskStatus value) updateTaskStatus,
+    required TResult Function(FilterByCategoryEvent value) filterBy,
+  }) {
+    return updateTaskStatus(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetTasksEvent value)? getTasks,
+    TResult? Function(AddTaskEvent value)? addTask,
+    TResult? Function(RemoveTaskEvent value)? removeTask,
+    TResult? Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult? Function(FilterByCategoryEvent value)? filterBy,
+  }) {
+    return updateTaskStatus?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetTasksEvent value)? getTasks,
+    TResult Function(AddTaskEvent value)? addTask,
+    TResult Function(RemoveTaskEvent value)? removeTask,
+    TResult Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult Function(FilterByCategoryEvent value)? filterBy,
+    required TResult orElse(),
+  }) {
+    if (updateTaskStatus != null) {
+      return updateTaskStatus(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UpdateTaskStatus implements TaskEvent {
+  const factory UpdateTaskStatus(final int index) = _$UpdateTaskStatusImpl;
+
+  int get index;
+  @JsonKey(ignore: true)
+  _$$UpdateTaskStatusImplCopyWith<_$UpdateTaskStatusImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FilterByCategoryEventImplCopyWith<$Res> {
+  factory _$$FilterByCategoryEventImplCopyWith(
+          _$FilterByCategoryEventImpl value,
+          $Res Function(_$FilterByCategoryEventImpl) then) =
+      __$$FilterByCategoryEventImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String category});
+}
+
+/// @nodoc
+class __$$FilterByCategoryEventImplCopyWithImpl<$Res>
+    extends _$TaskEventCopyWithImpl<$Res, _$FilterByCategoryEventImpl>
+    implements _$$FilterByCategoryEventImplCopyWith<$Res> {
+  __$$FilterByCategoryEventImplCopyWithImpl(_$FilterByCategoryEventImpl _value,
+      $Res Function(_$FilterByCategoryEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? category = null,
+  }) {
+    return _then(_$FilterByCategoryEventImpl(
+      null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FilterByCategoryEventImpl implements FilterByCategoryEvent {
+  const _$FilterByCategoryEventImpl(this.category);
+
+  @override
+  final String category;
+
+  @override
+  String toString() {
+    return 'TaskEvent.filterBy(category: $category)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FilterByCategoryEventImpl &&
+            (identical(other.category, category) ||
+                other.category == category));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, category);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FilterByCategoryEventImplCopyWith<_$FilterByCategoryEventImpl>
+      get copyWith => __$$FilterByCategoryEventImplCopyWithImpl<
+          _$FilterByCategoryEventImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getTasks,
+    required TResult Function(String title, String description, String category)
+        addTask,
+    required TResult Function(int index) removeTask,
+    required TResult Function(int index) updateTaskStatus,
+    required TResult Function(String category) filterBy,
+  }) {
+    return filterBy(category);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? getTasks,
+    TResult? Function(String title, String description, String category)?
+        addTask,
+    TResult? Function(int index)? removeTask,
+    TResult? Function(int index)? updateTaskStatus,
+    TResult? Function(String category)? filterBy,
+  }) {
+    return filterBy?.call(category);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getTasks,
+    TResult Function(String title, String description, String category)?
+        addTask,
+    TResult Function(int index)? removeTask,
+    TResult Function(int index)? updateTaskStatus,
+    TResult Function(String category)? filterBy,
+    required TResult orElse(),
+  }) {
+    if (filterBy != null) {
+      return filterBy(category);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetTasksEvent value) getTasks,
+    required TResult Function(AddTaskEvent value) addTask,
+    required TResult Function(RemoveTaskEvent value) removeTask,
+    required TResult Function(UpdateTaskStatus value) updateTaskStatus,
+    required TResult Function(FilterByCategoryEvent value) filterBy,
+  }) {
+    return filterBy(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetTasksEvent value)? getTasks,
+    TResult? Function(AddTaskEvent value)? addTask,
+    TResult? Function(RemoveTaskEvent value)? removeTask,
+    TResult? Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult? Function(FilterByCategoryEvent value)? filterBy,
+  }) {
+    return filterBy?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetTasksEvent value)? getTasks,
+    TResult Function(AddTaskEvent value)? addTask,
+    TResult Function(RemoveTaskEvent value)? removeTask,
+    TResult Function(UpdateTaskStatus value)? updateTaskStatus,
+    TResult Function(FilterByCategoryEvent value)? filterBy,
+    required TResult orElse(),
+  }) {
+    if (filterBy != null) {
+      return filterBy(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FilterByCategoryEvent implements TaskEvent {
+  const factory FilterByCategoryEvent(final String category) =
+      _$FilterByCategoryEventImpl;
+
+  String get category;
+  @JsonKey(ignore: true)
+  _$$FilterByCategoryEventImplCopyWith<_$FilterByCategoryEventImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc

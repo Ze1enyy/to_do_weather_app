@@ -30,8 +30,12 @@ class HiveTaskService implements TaskService {
   }
 
   @override
-  Future<void> setAsCompleted(String id) {
-    // TODO: implement setAsCompleted
-    throw UnimplementedError();
+  Future<void> updateTaskStatus(int index) {
+    return _gateway.updateTaskStatus(index);
+  }
+
+  @override
+  Future<List<Task>> getFilteredTasks(String category) {
+    return _gateway.getFilteredTasks(category);
   }
 }

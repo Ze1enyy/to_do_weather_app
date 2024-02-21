@@ -13,25 +13,48 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _bloc = sl<TaskBloc>();
+  String? _selectedFilter;
 
   @override
   void initState() {
     super.initState();
+
     _bloc.add(const GetTasksEvent());
   }
+
+  List<String> items = ['Test', 'Test1', 'Test2'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('To-do app'),
+        actions: [
+          DropdownButton(
+            value: _selectedFilter,
+            items: List.from(items)
+                .map((e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(e),
+                    ))
+                .toList(),
+            onChanged: (value) {
+              setState(() {
+                _selectedFilter = value.toString();
+              });
+              _bloc.add(FilterByCategoryEvent(_selectedFilter!));
+            },
+          )
+        ],
       ),
       floatingActionButton: ElevatedButton(
           onPressed: () {
             showDialog<void>(
               context: context,
               builder: (BuildContext context) {
-                return DialogContent();
+                return DialogContent(
+                  selectedFilter: _selectedFilter,
+                );
               },
             );
           },
@@ -44,26 +67,45 @@ class _HomePageState extends State<HomePage> {
               return state.when(
                 initial: () => const SizedBox.shrink(),
                 loaded: (tasks) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(tasks[index].title),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(tasks[index].description),
-                            Text(tasks[index].category)
-                          ],
-                        ),
-                        trailing: IconButton(
-                            onPressed: () {
-                              _bloc.add(RemoveTaskEvent(index));
+                  return Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(tasks[index].title),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(tasks[index].description),
+                              Text(tasks[index].category)
+                            ],
+                          ),
+                          leading: Switch(
+                            value: tasks[index].isCompleted,
+                            onChanged: (value) {
+                              _bloc.add(UpdateTaskStatus(index));
+                              if (_selectedFilter == null) {
+                                _bloc.add(GetTasksEvent());
+                              } else {
+                                _bloc.add(
+                                    FilterByCategoryEvent(_selectedFilter!));
+                              }
                             },
-                            icon: const Icon(Icons.delete)),
-                      );
-                    },
-                    itemCount: tasks.length,
+                          ),
+                          trailing: IconButton(
+                              onPressed: () {
+                                _bloc.add(RemoveTaskEvent(index));
+                                if (_selectedFilter == null) {
+                                  _bloc.add(GetTasksEvent());
+                                } else {
+                                  _bloc.add(
+                                      FilterByCategoryEvent(_selectedFilter!));
+                                }
+                              },
+                              icon: const Icon(Icons.delete)),
+                        );
+                      },
+                      itemCount: tasks.length,
+                    ),
                   );
                 },
               );
