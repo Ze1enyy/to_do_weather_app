@@ -3,13 +3,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:to_do_app/domain/entity/task.dart';
 import 'package:to_do_app/domain/usecases/add_task_usecase.dart';
 import 'package:to_do_app/domain/usecases/get_task_usecase.dart';
+import 'package:to_do_app/domain/usecases/remove_task_usecase.dart';
 
 part 'task_event.dart';
 part 'task_state.dart';
 part 'task_bloc.freezed.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  TaskBloc(this._addTaskUseCase, this._getTasksUseCase)
+  TaskBloc(this._addTaskUseCase, this._getTasksUseCase, this._removeTaskUseCase)
       : super(const _Initial()) {
     on<TaskEvent>((event, emit) async {
       await event.when(
@@ -20,8 +21,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           return _addTask(emit,
               title: title, description: description, category: category);
         },
+        removeTask: (index) {
+          return _removeTask(emit, index);
+        },
       );
     });
+  }
+
+  Future<void> _removeTask(Emitter<TaskState> emit, int index) {
+    return _removeTaskUseCase.call(index).then((value) => _getTasks(emit));
   }
 
   Future<void> _getTasks(Emitter<TaskState> emit) {
@@ -39,4 +47,5 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   final AddTaskUseCase _addTaskUseCase;
   final GetTasksUseCase _getTasksUseCase;
+  final RemoveTaskUseCase _removeTaskUseCase;
 }

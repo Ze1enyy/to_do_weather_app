@@ -21,6 +21,7 @@ mixin _$TaskEvent {
     required TResult Function() getTasks,
     required TResult Function(String title, String description, String category)
         addTask,
+    required TResult Function(int index) removeTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$TaskEvent {
     TResult? Function()? getTasks,
     TResult? Function(String title, String description, String category)?
         addTask,
+    TResult? Function(int index)? removeTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$TaskEvent {
     TResult Function()? getTasks,
     TResult Function(String title, String description, String category)?
         addTask,
+    TResult Function(int index)? removeTask,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -42,18 +45,21 @@ mixin _$TaskEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(GetTasksEvent value) getTasks,
     required TResult Function(AddTaskEvent value) addTask,
+    required TResult Function(RemoveTaskEvent value) removeTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetTasksEvent value)? getTasks,
     TResult? Function(AddTaskEvent value)? addTask,
+    TResult? Function(RemoveTaskEvent value)? removeTask,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetTasksEvent value)? getTasks,
     TResult Function(AddTaskEvent value)? addTask,
+    TResult Function(RemoveTaskEvent value)? removeTask,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -117,6 +123,7 @@ class _$GetTasksEventImpl implements GetTasksEvent {
     required TResult Function() getTasks,
     required TResult Function(String title, String description, String category)
         addTask,
+    required TResult Function(int index) removeTask,
   }) {
     return getTasks();
   }
@@ -127,6 +134,7 @@ class _$GetTasksEventImpl implements GetTasksEvent {
     TResult? Function()? getTasks,
     TResult? Function(String title, String description, String category)?
         addTask,
+    TResult? Function(int index)? removeTask,
   }) {
     return getTasks?.call();
   }
@@ -137,6 +145,7 @@ class _$GetTasksEventImpl implements GetTasksEvent {
     TResult Function()? getTasks,
     TResult Function(String title, String description, String category)?
         addTask,
+    TResult Function(int index)? removeTask,
     required TResult orElse(),
   }) {
     if (getTasks != null) {
@@ -150,6 +159,7 @@ class _$GetTasksEventImpl implements GetTasksEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(GetTasksEvent value) getTasks,
     required TResult Function(AddTaskEvent value) addTask,
+    required TResult Function(RemoveTaskEvent value) removeTask,
   }) {
     return getTasks(this);
   }
@@ -159,6 +169,7 @@ class _$GetTasksEventImpl implements GetTasksEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetTasksEvent value)? getTasks,
     TResult? Function(AddTaskEvent value)? addTask,
+    TResult? Function(RemoveTaskEvent value)? removeTask,
   }) {
     return getTasks?.call(this);
   }
@@ -168,6 +179,7 @@ class _$GetTasksEventImpl implements GetTasksEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetTasksEvent value)? getTasks,
     TResult Function(AddTaskEvent value)? addTask,
+    TResult Function(RemoveTaskEvent value)? removeTask,
     required TResult orElse(),
   }) {
     if (getTasks != null) {
@@ -267,6 +279,7 @@ class _$AddTaskEventImpl implements AddTaskEvent {
     required TResult Function() getTasks,
     required TResult Function(String title, String description, String category)
         addTask,
+    required TResult Function(int index) removeTask,
   }) {
     return addTask(title, description, category);
   }
@@ -277,6 +290,7 @@ class _$AddTaskEventImpl implements AddTaskEvent {
     TResult? Function()? getTasks,
     TResult? Function(String title, String description, String category)?
         addTask,
+    TResult? Function(int index)? removeTask,
   }) {
     return addTask?.call(title, description, category);
   }
@@ -287,6 +301,7 @@ class _$AddTaskEventImpl implements AddTaskEvent {
     TResult Function()? getTasks,
     TResult Function(String title, String description, String category)?
         addTask,
+    TResult Function(int index)? removeTask,
     required TResult orElse(),
   }) {
     if (addTask != null) {
@@ -300,6 +315,7 @@ class _$AddTaskEventImpl implements AddTaskEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(GetTasksEvent value) getTasks,
     required TResult Function(AddTaskEvent value) addTask,
+    required TResult Function(RemoveTaskEvent value) removeTask,
   }) {
     return addTask(this);
   }
@@ -309,6 +325,7 @@ class _$AddTaskEventImpl implements AddTaskEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetTasksEvent value)? getTasks,
     TResult? Function(AddTaskEvent value)? addTask,
+    TResult? Function(RemoveTaskEvent value)? removeTask,
   }) {
     return addTask?.call(this);
   }
@@ -318,6 +335,7 @@ class _$AddTaskEventImpl implements AddTaskEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetTasksEvent value)? getTasks,
     TResult Function(AddTaskEvent value)? addTask,
+    TResult Function(RemoveTaskEvent value)? removeTask,
     required TResult orElse(),
   }) {
     if (addTask != null) {
@@ -338,6 +356,149 @@ abstract class AddTaskEvent implements TaskEvent {
   String get category;
   @JsonKey(ignore: true)
   _$$AddTaskEventImplCopyWith<_$AddTaskEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RemoveTaskEventImplCopyWith<$Res> {
+  factory _$$RemoveTaskEventImplCopyWith(_$RemoveTaskEventImpl value,
+          $Res Function(_$RemoveTaskEventImpl) then) =
+      __$$RemoveTaskEventImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int index});
+}
+
+/// @nodoc
+class __$$RemoveTaskEventImplCopyWithImpl<$Res>
+    extends _$TaskEventCopyWithImpl<$Res, _$RemoveTaskEventImpl>
+    implements _$$RemoveTaskEventImplCopyWith<$Res> {
+  __$$RemoveTaskEventImplCopyWithImpl(
+      _$RemoveTaskEventImpl _value, $Res Function(_$RemoveTaskEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+  }) {
+    return _then(_$RemoveTaskEventImpl(
+      null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$RemoveTaskEventImpl implements RemoveTaskEvent {
+  const _$RemoveTaskEventImpl(this.index);
+
+  @override
+  final int index;
+
+  @override
+  String toString() {
+    return 'TaskEvent.removeTask(index: $index)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RemoveTaskEventImpl &&
+            (identical(other.index, index) || other.index == index));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, index);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RemoveTaskEventImplCopyWith<_$RemoveTaskEventImpl> get copyWith =>
+      __$$RemoveTaskEventImplCopyWithImpl<_$RemoveTaskEventImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getTasks,
+    required TResult Function(String title, String description, String category)
+        addTask,
+    required TResult Function(int index) removeTask,
+  }) {
+    return removeTask(index);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? getTasks,
+    TResult? Function(String title, String description, String category)?
+        addTask,
+    TResult? Function(int index)? removeTask,
+  }) {
+    return removeTask?.call(index);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getTasks,
+    TResult Function(String title, String description, String category)?
+        addTask,
+    TResult Function(int index)? removeTask,
+    required TResult orElse(),
+  }) {
+    if (removeTask != null) {
+      return removeTask(index);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetTasksEvent value) getTasks,
+    required TResult Function(AddTaskEvent value) addTask,
+    required TResult Function(RemoveTaskEvent value) removeTask,
+  }) {
+    return removeTask(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetTasksEvent value)? getTasks,
+    TResult? Function(AddTaskEvent value)? addTask,
+    TResult? Function(RemoveTaskEvent value)? removeTask,
+  }) {
+    return removeTask?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetTasksEvent value)? getTasks,
+    TResult Function(AddTaskEvent value)? addTask,
+    TResult Function(RemoveTaskEvent value)? removeTask,
+    required TResult orElse(),
+  }) {
+    if (removeTask != null) {
+      return removeTask(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RemoveTaskEvent implements TaskEvent {
+  const factory RemoveTaskEvent(final int index) = _$RemoveTaskEventImpl;
+
+  int get index;
+  @JsonKey(ignore: true)
+  _$$RemoveTaskEventImplCopyWith<_$RemoveTaskEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

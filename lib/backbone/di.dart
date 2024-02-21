@@ -4,6 +4,7 @@ import 'package:to_do_app/data/service/hive_task_service.dart';
 import 'package:to_do_app/domain/services/task_service.dart';
 import 'package:to_do_app/domain/usecases/add_task_usecase.dart';
 import 'package:to_do_app/domain/usecases/get_task_usecase.dart';
+import 'package:to_do_app/domain/usecases/remove_task_usecase.dart';
 import 'package:to_do_app/presentation/bloc/task/bloc/task_bloc.dart';
 
 final GetIt sl = GetIt.instance;
@@ -29,15 +30,15 @@ void _registerUseCases() {
     )
     ..registerLazySingleton<AddTaskUseCase>(
       () => HiveAddTaskUseCase(sl.get()),
+    )
+    ..registerLazySingleton<RemoveTaskUseCase>(
+      () => HiveRemoveTaskUseCase(sl.get()),
     );
 }
 
 void _registerBlocs() {
   sl.registerLazySingleton<TaskBloc>(
-    () => TaskBloc(
-      sl.get(),
-      sl.get(),
-    ),
+    () => TaskBloc(sl.get(), sl.get(), sl.get()),
   );
 }
 

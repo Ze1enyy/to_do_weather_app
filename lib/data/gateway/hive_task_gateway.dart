@@ -18,16 +18,18 @@ class HiveTaskGateway {
   }
 
   Future<List<Task>> getTasks() async {
-    await openBox();
+    if (_taskBox == null) {
+      await openBox();
+    }
     return _taskBox!.values.toList();
   }
 
   Future<void> removeTask(int index) async {
-    await _taskBox!.deleteAt(index);
+    await _taskBox?.deleteAt(index);
   }
 
   Future<void> updateCompletedStatus({required int index}) async {
-    final task = _taskBox!.getAt(index);
+    final task = _taskBox?.getAt(index);
     Task newTask = task!;
     await _taskBox!.putAt(
         index,

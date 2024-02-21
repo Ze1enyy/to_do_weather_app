@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:to_do_app/backbone/di.dart';
 import 'package:to_do_app/presentation/bloc/task/bloc/task_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:to_do_app/presentation/widget/dialog_content.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,47 +17,25 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _bloc.add(GetTasksEvent());
+    _bloc.add(const GetTasksEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('To-do app'),
+        title: const Text('To-do app'),
       ),
       floatingActionButton: ElevatedButton(
           onPressed: () {
-            showDialog(
+            showDialog<void>(
               context: context,
-              builder: (context) {
-                return Material(
-                  child: Column(
-                    children: [
-                      Text('Add new task'),
-                      TextField(),
-                      TextField(),
-                      TextField(),
-                      Switch(
-                        value: false,
-                        onChanged: (value) {},
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            _bloc.add(AddTaskEvent(
-                                title: 'test',
-                                description: 'test',
-                                category: 'test'));
-                            Navigator.pop(context);
-                          },
-                          child: Text('Add new'))
-                    ],
-                  ),
-                );
+              builder: (BuildContext context) {
+                return DialogContent();
               },
             );
           },
-          child: Text('Add')),
+          child: const Text('Add')),
       body: Column(
         children: [
           BlocBuilder<TaskBloc, TaskState>(
@@ -70,7 +49,18 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, index) {
                       return ListTile(
                         title: Text(tasks[index].title),
-                        subtitle: Text(tasks[index].description),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(tasks[index].description),
+                            Text(tasks[index].category)
+                          ],
+                        ),
+                        trailing: IconButton(
+                            onPressed: () {
+                              _bloc.add(RemoveTaskEvent(index));
+                            },
+                            icon: const Icon(Icons.delete)),
                       );
                     },
                     itemCount: tasks.length,

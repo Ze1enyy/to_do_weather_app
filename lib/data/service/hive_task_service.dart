@@ -25,9 +25,8 @@ class HiveTaskService implements TaskService {
   }
 
   @override
-  Future<void> removeTask(String id) {
-    // TODO: implement removeTask
-    throw UnimplementedError();
+  Future<void> removeTask(int index) {
+    return _gateway.removeTask(index);
   }
 
   @override
