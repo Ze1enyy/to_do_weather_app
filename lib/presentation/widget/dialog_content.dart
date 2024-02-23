@@ -55,7 +55,7 @@ class _DialogContentState extends State<DialogContent> {
             },
           ),
           DropdownButton(
-            value: _selectedItem,
+            value: _selectedItem ?? items[0],
             items: List.from(items)
                 .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                 .toList(),
@@ -80,11 +80,10 @@ class _DialogContentState extends State<DialogContent> {
                     _descriptionTextController.text.isNotEmpty &&
                     _selectedItem != null
                 ? () {
-                    for (int i = 0; i < 5; i++)
-                      _bloc.add(AddTaskEvent(
-                          title: _titleTextController.text,
-                          description: _descriptionTextController.text,
-                          category: _selectedItem!));
+                    _bloc.add(AddTaskEvent(
+                        title: _titleTextController.text,
+                        description: _descriptionTextController.text,
+                        category: _selectedItem!));
                     if (widget.selectedFilter != null) {
                       _bloc.add(FilterByCategoryEvent(widget.selectedFilter!));
                     } else {

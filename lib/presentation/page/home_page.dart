@@ -69,8 +69,10 @@ class _HomePageState extends State<HomePage> {
                 loaded: (tasks) {
                   return Expanded(
                     child: ListView.builder(
+                      shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return ListTile(
+                          key: UniqueKey(),
                           title: Text(tasks[index].title),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

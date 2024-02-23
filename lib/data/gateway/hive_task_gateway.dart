@@ -22,21 +22,14 @@ class HiveTaskGateway {
       await openBox();
     }
 
-    _taskBox?.watch().listen((event) {
-      print(event.value);
-    });
     return _taskBox!.values.toList();
   }
 
   Future<List<Task>> getFilteredTasks(String category) async {
-    return _taskBox!.values
-        .toList()
-        .where((task) => task.category == category)
-        .toList();
+    return _taskBox!.values.where((task) => task.category == category).toList();
   }
 
   Future<void> removeTask(int index) async {
-    print(_taskBox?.values.elementAt(index).title);
     await _taskBox?.deleteAt(index);
   }
 
@@ -51,8 +44,4 @@ class HiveTaskGateway {
             description: newTask.description,
             isCompleted: !newTask.isCompleted));
   }
-
-  // Future<void> cacheTasks() async {
-  //   throw UnimplementedError();
-  // }
 }
