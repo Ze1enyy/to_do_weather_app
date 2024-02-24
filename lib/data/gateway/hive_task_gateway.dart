@@ -28,16 +28,20 @@ class HiveTaskGateway {
     return result.isNotEmpty ? result : '1';
   }
 
-  Future<void> addTask(
-      {required String title,
-      required String description,
-      required String category}) async {
-    await _taskBox?.add(Task(
+  Future<void> addTask({
+    required String title,
+    required String description,
+    required String category,
+  }) async {
+    await _taskBox?.add(
+      Task(
         category: category,
         description: description,
         title: title,
         id: generateBase58TaskId(),
-        isCompleted: false));
+        isCompleted: false,
+      ),
+    );
   }
 
   Future<List<Task>> getTasks() async {
@@ -45,7 +49,9 @@ class HiveTaskGateway {
   }
 
   Future<List<Task>> getFilteredTasks(
-      List<String>? categories, bool? isTaskCompleted) async {
+    List<String>? categories,
+    bool? isTaskCompleted,
+  ) async {
     List<Task> tasks = _taskBox!.values.toList();
 
     if (categories != null && categories.isNotEmpty) {
@@ -62,14 +68,16 @@ class HiveTaskGateway {
   }
 
   Future<void> removeTask(String id) async {
-    final key = _taskBox
-        ?.keyAt(_taskBox!.values.toList().indexWhere((task) => task.id == id));
+    final key = _taskBox?.keyAt(
+      _taskBox!.values.toList().indexWhere((task) => task.id == id),
+    );
     await _taskBox?.delete(key);
   }
 
   Future<void> updateTaskStatus(String id) async {
-    final key = _taskBox
-        ?.keyAt(_taskBox!.values.toList().indexWhere((task) => task.id == id));
+    final key = _taskBox?.keyAt(
+      _taskBox!.values.toList().indexWhere((task) => task.id == id),
+    );
 
     if (key != null) {
       final task = _taskBox?.get(key);

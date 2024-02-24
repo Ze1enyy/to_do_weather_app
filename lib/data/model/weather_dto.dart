@@ -11,12 +11,12 @@ class WeatherDto {
     required this.countryCode,
   });
   final double temperature;
+  final double windSpeed;
   final int humidity;
   final int pressure;
   final int cloudiness;
-  final String description;
-  final double windSpeed;
   final String weatherImageCode;
   final String countryCode;
   final String cityName;
+  final String description;
 }

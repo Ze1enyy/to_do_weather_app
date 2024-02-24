@@ -14,11 +14,15 @@ class TaskTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      // Using key to avoid render artifacts
       key: ValueKey(task.id),
       title: Text(task.title),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [Text(task.description), Text(task.category)],
+        children: [
+          Text(task.description),
+          Text(task.category),
+        ],
       ),
       leading: Checkbox(
         value: task.isCompleted,

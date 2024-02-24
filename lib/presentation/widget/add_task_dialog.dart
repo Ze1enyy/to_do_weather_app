@@ -79,7 +79,10 @@ class _DialogContentState extends State<DialogContent> {
             hint: const Text('Select category...'),
             value: _selectedCategory,
             items: List.from(FilterUtils.categories)
-                .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                .map((category) => DropdownMenuItem(
+                      value: category,
+                      child: Text(category),
+                    ))
                 .toList(),
             onChanged: (value) {
               setState(() {
@@ -108,7 +111,9 @@ class _DialogContentState extends State<DialogContent> {
                         category: _selectedCategory!));
                     if (widget.selectedCategories != null) {
                       _bloc.add(FilterTasksEvent(
-                          widget.selectedCategories, widget.isCompletedFilter));
+                        widget.selectedCategories,
+                        widget.isCompletedFilter,
+                      ));
                     } else {
                       _bloc.add(const GetTasksEvent());
                     }

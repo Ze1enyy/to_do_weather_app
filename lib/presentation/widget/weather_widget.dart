@@ -45,9 +45,11 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                 height: MediaQuery.of(context).size.height * 0.2,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius:
-                        BorderRadius.vertical(bottom: Radius.circular(16))),
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(16),
+                  ),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -59,25 +61,32 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                               Text(
                                 '${weather.cityName}, ${weather.countryCode}',
                                 style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600),
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                               SizedBox(
-                                  height: 50,
-                                  width: 50,
-                                  child: Center(
-                                      child: Text(
+                                height: 50,
+                                width: 50,
+                                child: Center(
+                                  child: Text(
                                     '${weather.temperature.toString()}°C',
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(color: Colors.white),
-                                  ))),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                           const Spacer(),
                           Column(
                             children: [
                               Text(
-                                FormattingUtils.capitalize(weather.description),
+                                FormattingUtils.capitalize(
+                                  weather.description,
+                                ),
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),
@@ -105,17 +114,21 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           WeatherCondition(
-                              condition: '${weather.cloudiness}%',
-                              imageAsset: Assets.svg.cloudiness),
+                            condition: '${weather.cloudiness}%',
+                            imageAsset: Assets.svg.cloudiness,
+                          ),
                           WeatherCondition(
-                              condition: '${weather.humidity}%',
-                              imageAsset: Assets.svg.humidity),
+                            condition: '${weather.humidity}%',
+                            imageAsset: Assets.svg.humidity,
+                          ),
                           WeatherCondition(
-                              condition: '${weather.pressure} Pa',
-                              imageAsset: Assets.svg.pressure),
+                            condition: '${weather.pressure} Pa',
+                            imageAsset: Assets.svg.pressure,
+                          ),
                           WeatherCondition(
-                              condition: '${weather.windSpeed}km/h',
-                              imageAsset: Assets.svg.wind)
+                            condition: '${weather.windSpeed}km/h',
+                            imageAsset: Assets.svg.wind,
+                          )
                         ],
                       )
                     ],

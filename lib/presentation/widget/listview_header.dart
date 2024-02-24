@@ -26,6 +26,15 @@ class ListViewHeader extends StatefulWidget {
 
 class _ListViewHeaderState extends State<ListViewHeader> {
   List<String> selectedCategories = [];
+
+  bool get isGrouppedByCategory => widget.isGrouppedByCategory;
+  bool? get isTaskCompletedFilter => widget.isTaskCompletedFilter;
+  VoidCallback get cancelFilterCallback => widget.cancelFilterCallback;
+  ValueChanged<bool?> get statusCallback => widget.statusCallback;
+  ValueChanged<bool> get grouppedViewCallback => widget.grouppedViewCallback;
+  void Function(String category) get categoriesCallback =>
+      widget.categoriesCallback;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -40,49 +49,54 @@ class _ListViewHeaderState extends State<ListViewHeader> {
                   ? Text(selectedCategories.join(', '))
                   : const Text('Filter by ...'),
               items: List.from(FilterUtils.categories)
-                  .map((category) => DropdownMenuItem(
-                        value: category,
-                        child: StatefulBuilder(
-                          builder: (context, setState) {
-                            return Row(
-                              children: [
-                                Checkbox(
-                                  onChanged: (value) {
-                                    setState(() {
+                  .map(
+                    (category) => DropdownMenuItem(
+                      value: category,
+                      child: StatefulBuilder(
+                        builder: (context, setState) {
+                          return Row(
+                            children: [
+                              Checkbox(
+                                onChanged: (value) {
+                                  setState(
+                                    () {
                                       if (!selectedCategories
                                           .contains(category)) {
                                         selectedCategories.add(category);
                                       } else {
                                         selectedCategories.remove(category);
                                       }
-                                    });
-                                    widget.categoriesCallback(category);
-                                  },
-                                  value: selectedCategories.contains(category),
-                                ),
-                                Text(category),
-                              ],
-                            );
-                          },
-                        ),
-                      ))
+                                    },
+                                  );
+                                  categoriesCallback(category);
+                                },
+                                value: selectedCategories.contains(category),
+                              ),
+                              Text(category),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  )
                   .toList(),
               onChanged: (value) {},
             ),
           ),
           if (selectedCategories.isNotEmpty)
             IconButton(
-                onPressed: () {
-                  setState(() {
-                    selectedCategories.clear();
-                  });
-                  widget.cancelFilterCallback();
-                },
-                icon: const Icon(Icons.close)),
+              onPressed: () {
+                setState(() {
+                  selectedCategories.clear();
+                });
+                cancelFilterCallback();
+              },
+              icon: const Icon(Icons.close),
+            ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: DropdownButton<bool?>(
-              value: widget.isTaskCompletedFilter,
+              value: isTaskCompletedFilter,
               hint: const Text('Task status'),
               items: List.from(FilterUtils.taskStatus.entries
                   .toList()
@@ -90,7 +104,7 @@ class _ListViewHeaderState extends State<ListViewHeader> {
                         value: e.value,
                         child: Text(e.key),
                       ))),
-              onChanged: widget.statusCallback,
+              onChanged: statusCallback,
             ),
           ),
           Row(
@@ -98,8 +112,8 @@ class _ListViewHeaderState extends State<ListViewHeader> {
               const Text('Group'),
               Switch(
                 activeColor: Colors.blueAccent,
-                value: widget.isGrouppedByCategory,
-                onChanged: widget.grouppedViewCallback,
+                value: isGrouppedByCategory,
+                onChanged: grouppedViewCallback,
               ),
             ],
           )

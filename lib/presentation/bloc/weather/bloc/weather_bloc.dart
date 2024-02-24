@@ -8,7 +8,9 @@ part 'weather_state.dart';
 part 'weather_bloc.freezed.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
-  WeatherBloc(this._getCurrentWeatherUseCase) : super(const _Initial()) {
+  WeatherBloc(
+    this._getCurrentWeatherUseCase,
+  ) : super(const _Initial()) {
     on<WeatherEvent>((event, emit) async {
       await event.when(
         getCurrentWeather: () => _getCurrentWeather(emit),

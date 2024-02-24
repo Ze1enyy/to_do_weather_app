@@ -4,9 +4,8 @@ import 'package:to_do_app/domain/entity/task.dart';
 import 'package:to_do_app/presentation/bloc/task/bloc/task_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/presentation/widget/add_task_dialog.dart';
-import 'package:to_do_app/presentation/widget/group_header.dart';
 import 'package:to_do_app/presentation/widget/listview_header.dart';
-import 'package:to_do_app/presentation/widget/task_tile.dart';
+import 'package:to_do_app/presentation/widget/task_list_view.dart';
 import 'package:to_do_app/presentation/widget/weather_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   bool? _isTaskCompletedFilter;
   bool _isGrouppedByCategory = true;
-  List<String> _selectedCategories = [];
+  final _selectedCategories = <String>[];
 
   @override
   void initState() {
@@ -41,11 +40,13 @@ class _HomePageState extends State<HomePage> {
               Icons.add,
               color: Colors.white,
             ),
-          )
+          ),
         ],
         title: const Text(
           'To-do Weather App',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.blueAccent,
@@ -65,14 +66,18 @@ class _HomePageState extends State<HomePage> {
                 }
               });
               _taskBloc.add(FilterTasksEvent(
-                  _selectedCategories, _isTaskCompletedFilter));
+                _selectedCategories,
+                _isTaskCompletedFilter,
+              ));
             },
             statusCallback: (value) {
               setState(() {
                 _isTaskCompletedFilter = value;
               });
               _taskBloc.add(FilterTasksEvent(
-                  _selectedCategories, _isTaskCompletedFilter));
+                _selectedCategories,
+                _isTaskCompletedFilter,
+              ));
             },
             cancelFilterCallback: () {
               setState(() {
@@ -99,59 +104,17 @@ class _HomePageState extends State<HomePage> {
                     tasks.sort((a, b) => a.category.compareTo(b.category));
                   }
 
-                  return _buildTaskListView(tasks);
+                  return TaskListView(
+                    tasks: tasks,
+                    selectedCategories: _selectedCategories,
+                    isGrouppedByCategory: _isGrouppedByCategory,
+                    isTaskCompletedFilter: _isTaskCompletedFilter,
+                  );
                 },
               );
             },
           )
         ],
-      ),
-    );
-  }
-
-  Widget _buildTaskListView(List<Task> tasks) {
-    return Expanded(
-      child: ListView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          bool isFirstInCategory = _isGrouppedByCategory &&
-              (index == 0 ||
-                  tasks[index].category != tasks[index - 1].category);
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (isFirstInCategory)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GroupHeader(category: tasks[index].category),
-                ),
-              TaskTile(
-                task: tasks[index],
-                removeTaskCallback: () {
-                  _taskBloc.add(RemoveTaskEvent(tasks[index].id));
-                  if (_selectedCategories.isEmpty) {
-                    _taskBloc.add(const GetTasksEvent());
-                  } else {
-                    _taskBloc.add(FilterTasksEvent(
-                        _selectedCategories, _isTaskCompletedFilter));
-                  }
-                },
-                toggleStatusCallback: (value) {
-                  _taskBloc.add(UpdateTaskStatusEvent(tasks[index].id));
-                  if (_selectedCategories.isEmpty) {
-                    _taskBloc.add(const GetTasksEvent());
-                  } else {
-                    _taskBloc.add(FilterTasksEvent(
-                        _selectedCategories, _isTaskCompletedFilter));
-                  }
-                },
-              ),
-            ],
-          );
-        },
-        itemCount: tasks.length,
       ),
     );
   }

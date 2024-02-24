@@ -8,10 +8,11 @@ class TaskRepository implements TaskService {
   final HiveTaskGateway _gateway;
 
   @override
-  Future<void> addTask(
-      {required String title,
-      required String description,
-      required String category}) {
+  Future<void> addTask({
+    required String title,
+    required String description,
+    required String category,
+  }) {
     return _gateway.addTask(
       category: category,
       title: title,
@@ -37,7 +38,9 @@ class TaskRepository implements TaskService {
 
   @override
   Future<List<Task>> getFilteredTasks(
-      List<String>? category, bool? isTaskCompleted) {
+    List<String>? category,
+    bool? isTaskCompleted,
+  ) {
     return _gateway.getFilteredTasks(category, isTaskCompleted);
   }
 }

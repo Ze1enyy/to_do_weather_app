@@ -8,7 +8,9 @@ part 'connectivity_state.dart';
 part 'connectivity_bloc.freezed.dart';
 
 class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
-  ConnectivityBloc(this._getConnectionStatusUseCase) : super(const _Initial()) {
+  ConnectivityBloc(
+    this._getConnectionStatusUseCase,
+  ) : super(const _Initial()) {
     on<ConnectivityEvent>((event, emit) async {
       await event.when(
         getConnectionStatus: () => _getConnectionStatus(emit),

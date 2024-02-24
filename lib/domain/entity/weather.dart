@@ -4,16 +4,17 @@ part 'weather.g.dart';
 
 @HiveType(typeId: 2)
 class Weather {
-  Weather(
-      {required this.temperature,
-      required this.humidity,
-      required this.pressure,
-      required this.description,
-      required this.windSpeed,
-      required this.weatherImageUrl,
-      required this.cloudiness,
-      required this.cityName,
-      required this.countryCode});
+  Weather({
+    required this.temperature,
+    required this.humidity,
+    required this.pressure,
+    required this.description,
+    required this.windSpeed,
+    required this.weatherImageUrl,
+    required this.cloudiness,
+    required this.cityName,
+    required this.countryCode,
+  });
   @HiveField(0)
   final double temperature;
   @HiveField(1)

@@ -11,17 +11,24 @@ class WeatherCondition extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SvgPicture.asset(imageAsset,
-            height: 25,
-            width: 25,
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+        SvgPicture.asset(
+          imageAsset,
+          height: 25,
+          width: 25,
+          colorFilter: const ColorFilter.mode(
+            Colors.white,
+            BlendMode.srcIn,
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.only(left: 8),
           child: Text(
             condition,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(
+              color: Colors.white,
+            ),
           ),
-        )
+        ),
       ],
     );
   }

@@ -6,13 +6,14 @@ import 'package:to_do_app/domain/entity/weather.dart';
 class WeatherFromDtoFactory implements Factory<Weather, WeatherDto> {
   @override
   Weather create(WeatherDto param) => Weather(
-      humidity: param.humidity,
-      pressure: param.pressure,
-      windSpeed: param.windSpeed,
-      cloudiness: param.cloudiness,
-      description: param.description,
-      temperature: param.temperature,
-      cityName: param.cityName,
-      countryCode: param.countryCode,
-      weatherImageUrl: ApiUri.buildImageUrl(param.weatherImageCode));
+        humidity: param.humidity,
+        pressure: param.pressure,
+        windSpeed: param.windSpeed,
+        cloudiness: param.cloudiness,
+        description: param.description,
+        temperature: param.temperature,
+        cityName: param.cityName,
+        countryCode: param.countryCode,
+        weatherImageUrl: ApiUri.buildImageUrl(param.weatherImageCode),
+      );
 }

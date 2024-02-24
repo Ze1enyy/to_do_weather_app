@@ -6,7 +6,10 @@ import 'package:to_do_app/domain/entity/weather.dart';
 
 // Class-decorator. If device is offline - uses cached hive data, if online - fetches new from api
 class WeatherGatewayDecorator {
-  WeatherGatewayDecorator(this._hiveWeatherGateway, this._remoteWeatherGateway);
+  WeatherGatewayDecorator(
+    this._hiveWeatherGateway,
+    this._remoteWeatherGateway,
+  );
 
   final HiveWeatherGateway _hiveWeatherGateway;
   final RemoteWeatherGateway _remoteWeatherGateway;

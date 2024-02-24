@@ -6,7 +6,7 @@ class FilterUtils {
     'Rest',
     'Hobby',
   ];
-
+  // Predefined task status
   static const Map<String, bool> taskStatus = {
     'Active': false,
     'Completed': true,
