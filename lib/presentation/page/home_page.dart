@@ -19,9 +19,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _taskBloc = sl<TaskBloc>();
 
-  String? _selectedCategoryFilter;
-  bool isGrouppedByCategory = true;
   bool? _isTaskCompletedFilter;
+  bool _isGrouppedByCategory = true;
+  List<String> _selectedCategories = [];
 
   @override
   void initState() {
@@ -36,8 +36,7 @@ class _HomePageState extends State<HomePage> {
         scrolledUnderElevation: 0,
         actions: [
           IconButton(
-            onPressed: () =>
-                showAddTaskDialog(context, _selectedCategoryFilter),
+            onPressed: () => showAddTaskDialog(context, _selectedCategories),
             icon: const Icon(
               Icons.add,
               color: Colors.white,
@@ -55,35 +54,39 @@ class _HomePageState extends State<HomePage> {
         children: [
           const WeatherWidget(),
           ListViewHeader(
-              isTaskCompletedFilter: _isTaskCompletedFilter,
-              selectedFilter: _selectedCategoryFilter,
-              isGrouppedByCategory: isGrouppedByCategory,
-              statusCallback: (value) {
-                setState(() {
-                  _isTaskCompletedFilter = value;
-                });
-                _taskBloc.add(FilterByCategoryEvent(
-                    _selectedCategoryFilter, _isTaskCompletedFilter));
-              },
-              cancelFilterCallback: () {
-                setState(() {
-                  _selectedCategoryFilter = null;
-                  _isTaskCompletedFilter = null;
-                  _taskBloc.add(const GetTasksEvent());
-                });
-              },
-              grouppedViewCallback: (value) {
-                setState(() {
-                  isGrouppedByCategory = value;
-                });
-              },
-              categoriesCallback: (value) {
-                setState(() {
-                  _selectedCategoryFilter = value.toString();
-                });
-                _taskBloc.add(FilterByCategoryEvent(
-                    _selectedCategoryFilter, _isTaskCompletedFilter));
-              }),
+            isTaskCompletedFilter: _isTaskCompletedFilter,
+            isGrouppedByCategory: _isGrouppedByCategory,
+            categoriesCallback: (category) {
+              setState(() {
+                if (!_selectedCategories.contains(category)) {
+                  _selectedCategories.add(category);
+                } else {
+                  _selectedCategories.remove(category);
+                }
+              });
+              _taskBloc.add(FilterTasksEvent(
+                  _selectedCategories, _isTaskCompletedFilter));
+            },
+            statusCallback: (value) {
+              setState(() {
+                _isTaskCompletedFilter = value;
+              });
+              _taskBloc.add(FilterTasksEvent(
+                  _selectedCategories, _isTaskCompletedFilter));
+            },
+            cancelFilterCallback: () {
+              setState(() {
+                _isTaskCompletedFilter = null;
+                _selectedCategories.clear();
+                _taskBloc.add(const GetTasksEvent());
+              });
+            },
+            grouppedViewCallback: (value) {
+              setState(() {
+                _isGrouppedByCategory = value;
+              });
+            },
+          ),
           BlocBuilder<TaskBloc, TaskState>(
             bloc: _taskBloc,
             builder: (context, state) {
@@ -92,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                 loaded: (loadedTasks) {
                   List<Task> tasks = [...loadedTasks];
 
-                  if (isGrouppedByCategory) {
+                  if (_isGrouppedByCategory) {
                     tasks.sort((a, b) => a.category.compareTo(b.category));
                   }
 
@@ -112,7 +115,7 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.zero,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          bool isFirstInCategory = isGrouppedByCategory &&
+          bool isFirstInCategory = _isGrouppedByCategory &&
               (index == 0 ||
                   tasks[index].category != tasks[index - 1].category);
 
@@ -128,20 +131,20 @@ class _HomePageState extends State<HomePage> {
                 task: tasks[index],
                 removeTaskCallback: () {
                   _taskBloc.add(RemoveTaskEvent(tasks[index].id));
-                  if (_selectedCategoryFilter == null) {
+                  if (_selectedCategories.isEmpty) {
                     _taskBloc.add(const GetTasksEvent());
                   } else {
-                    _taskBloc.add(FilterByCategoryEvent(
-                        _selectedCategoryFilter, _isTaskCompletedFilter));
+                    _taskBloc.add(FilterTasksEvent(
+                        _selectedCategories, _isTaskCompletedFilter));
                   }
                 },
                 toggleStatusCallback: (value) {
                   _taskBloc.add(UpdateTaskStatusEvent(tasks[index].id));
-                  if (_selectedCategoryFilter == null) {
+                  if (_selectedCategories.isEmpty) {
                     _taskBloc.add(const GetTasksEvent());
                   } else {
-                    _taskBloc.add(FilterByCategoryEvent(
-                        _selectedCategoryFilter, _isTaskCompletedFilter));
+                    _taskBloc.add(FilterTasksEvent(
+                        _selectedCategories, _isTaskCompletedFilter));
                   }
                 },
               ),

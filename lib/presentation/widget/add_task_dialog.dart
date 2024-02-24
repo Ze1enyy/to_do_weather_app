@@ -5,13 +5,13 @@ import 'package:to_do_app/presentation/bloc/task/bloc/task_bloc.dart';
 
 Future<void> showAddTaskDialog(
   BuildContext context,
-  String? selectedFilter,
+  List<String>? selectedCategories,
 ) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
       return DialogContent(
-        selectedFilter: selectedFilter,
+        selectedCategories: selectedCategories,
       );
     },
   );
@@ -19,11 +19,11 @@ Future<void> showAddTaskDialog(
 
 class DialogContent extends StatefulWidget {
   const DialogContent({
-    this.selectedFilter,
+    this.selectedCategories,
     this.isCompletedFilter,
     super.key,
   });
-  final String? selectedFilter;
+  final List<String>? selectedCategories;
   final bool? isCompletedFilter;
 
   @override
@@ -106,9 +106,9 @@ class _DialogContentState extends State<DialogContent> {
                         title: _titleTextController.text,
                         description: _descriptionTextController.text,
                         category: _selectedCategory!));
-                    if (widget.selectedFilter != null) {
-                      _bloc.add(FilterByCategoryEvent(
-                          widget.selectedFilter, widget.isCompletedFilter));
+                    if (widget.selectedCategories != null) {
+                      _bloc.add(FilterTasksEvent(
+                          widget.selectedCategories, widget.isCompletedFilter));
                     } else {
                       _bloc.add(const GetTasksEvent());
                     }

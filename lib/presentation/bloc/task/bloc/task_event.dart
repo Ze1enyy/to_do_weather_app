@@ -9,6 +9,6 @@ class TaskEvent with _$TaskEvent {
       required String category}) = AddTaskEvent;
   const factory TaskEvent.removeTask(String id) = RemoveTaskEvent;
   const factory TaskEvent.updateTaskStatus(String id) = UpdateTaskStatusEvent;
-  const factory TaskEvent.filterBy(String? category, bool? isTaskCompleted) =
-      FilterByCategoryEvent;
+  const factory TaskEvent.filterTasks(
+      List<String>? category, bool? isTaskCompleted) = FilterTasksEvent;
 }

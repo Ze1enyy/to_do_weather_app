@@ -21,8 +21,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         addTask: (title, description, category) => _addTask(emit,
             title: title, description: description, category: category),
         removeTask: _removeTask,
-        filterBy: (category, isTaskCompleted) =>
-            _filterByCategory(emit, category, isTaskCompleted),
+        filterTasks: (category, isTaskCompleted) =>
+            _filterTasks(emit, category, isTaskCompleted),
         updateTaskStatus: _updateTaskStatus,
       );
     });
@@ -36,8 +36,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     return _updateTaskUseCase(id);
   }
 
-  Future<void> _filterByCategory(
-      Emitter<TaskState> emit, String? category, bool? isTaskCompleted) {
+  Future<void> _filterTasks(
+      Emitter<TaskState> emit, List<String>? category, bool? isTaskCompleted) {
     return _getFilteredTasksUseCase(category, isTaskCompleted)
         .then((value) => emit(_Loaded(value)));
   }

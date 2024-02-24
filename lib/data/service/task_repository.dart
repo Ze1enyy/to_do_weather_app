@@ -36,7 +36,8 @@ class TaskRepository implements TaskService {
   }
 
   @override
-  Future<List<Task>> getFilteredTasks(String? category, bool? isTaskCompleted) {
+  Future<List<Task>> getFilteredTasks(
+      List<String>? category, bool? isTaskCompleted) {
     return _gateway.getFilteredTasks(category, isTaskCompleted);
   }
 }

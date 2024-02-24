@@ -45,15 +45,19 @@ class HiveTaskGateway {
   }
 
   Future<List<Task>> getFilteredTasks(
-      String? category, bool? isTaskCompleted) async {
+      List<String>? categories, bool? isTaskCompleted) async {
     List<Task> tasks = _taskBox!.values.toList();
-    if (category != null) {
-      tasks = tasks.where((task) => task.category == category).toList();
+
+    if (categories != null && categories.isNotEmpty) {
+      tasks =
+          tasks.where((task) => categories.contains(task.category)).toList();
     }
+
     if (isTaskCompleted != null) {
       tasks =
           tasks.where((task) => task.isCompleted == isTaskCompleted).toList();
     }
+
     return tasks;
   }
 

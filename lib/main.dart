@@ -12,11 +12,15 @@ Future<void> main() async {
   // loading .env file
   await dotenv.load();
   // configuring Hive database
-  final hiveSettingsGateway = HiveSettingsGateway();
-  await hiveSettingsGateway.initHive();
-  await hiveSettingsGateway.registerAdapters();
+  await _initializeHive();
 
   runApp(const MaterialApp(
     home: HomePage(),
   ));
+}
+
+Future<void> _initializeHive() async {
+  final hiveSettingsGateway = HiveSettingsGateway();
+  await hiveSettingsGateway.initHive();
+  await hiveSettingsGateway.registerAdapters();
 }
