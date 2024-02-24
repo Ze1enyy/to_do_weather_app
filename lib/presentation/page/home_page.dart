@@ -19,8 +19,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _taskBloc = sl<TaskBloc>();
 
-  String? _selectedFilter;
+  String? _selectedCategoryFilter;
   bool isGrouppedByCategory = true;
+  bool? _isTaskCompletedFilter;
 
   @override
   void initState() {
@@ -35,7 +36,8 @@ class _HomePageState extends State<HomePage> {
         scrolledUnderElevation: 0,
         actions: [
           IconButton(
-            onPressed: () => showAddTaskDialog(context, _selectedFilter),
+            onPressed: () =>
+                showAddTaskDialog(context, _selectedCategoryFilter),
             icon: const Icon(
               Icons.add,
               color: Colors.white,
@@ -53,11 +55,20 @@ class _HomePageState extends State<HomePage> {
         children: [
           const WeatherWidget(),
           ListViewHeader(
-              selectedFilter: _selectedFilter,
+              isTaskCompletedFilter: _isTaskCompletedFilter,
+              selectedFilter: _selectedCategoryFilter,
               isGrouppedByCategory: isGrouppedByCategory,
+              statusCallback: (value) {
+                setState(() {
+                  _isTaskCompletedFilter = value;
+                });
+                _taskBloc.add(FilterByCategoryEvent(
+                    _selectedCategoryFilter, _isTaskCompletedFilter));
+              },
               cancelFilterCallback: () {
                 setState(() {
-                  _selectedFilter = null;
+                  _selectedCategoryFilter = null;
+                  _isTaskCompletedFilter = null;
                   _taskBloc.add(const GetTasksEvent());
                 });
               },
@@ -66,11 +77,12 @@ class _HomePageState extends State<HomePage> {
                   isGrouppedByCategory = value;
                 });
               },
-              dropdownCallback: (value) {
+              categoriesCallback: (value) {
                 setState(() {
-                  _selectedFilter = value.toString();
+                  _selectedCategoryFilter = value.toString();
                 });
-                _taskBloc.add(FilterByCategoryEvent(_selectedFilter!));
+                _taskBloc.add(FilterByCategoryEvent(
+                    _selectedCategoryFilter, _isTaskCompletedFilter));
               }),
           BlocBuilder<TaskBloc, TaskState>(
             bloc: _taskBloc,
@@ -116,18 +128,20 @@ class _HomePageState extends State<HomePage> {
                 task: tasks[index],
                 removeTaskCallback: () {
                   _taskBloc.add(RemoveTaskEvent(tasks[index].id));
-                  if (_selectedFilter == null) {
+                  if (_selectedCategoryFilter == null) {
                     _taskBloc.add(const GetTasksEvent());
                   } else {
-                    _taskBloc.add(FilterByCategoryEvent(_selectedFilter!));
+                    _taskBloc.add(FilterByCategoryEvent(
+                        _selectedCategoryFilter, _isTaskCompletedFilter));
                   }
                 },
                 toggleStatusCallback: (value) {
                   _taskBloc.add(UpdateTaskStatusEvent(tasks[index].id));
-                  if (_selectedFilter == null) {
+                  if (_selectedCategoryFilter == null) {
                     _taskBloc.add(const GetTasksEvent());
                   } else {
-                    _taskBloc.add(FilterByCategoryEvent(_selectedFilter!));
+                    _taskBloc.add(FilterByCategoryEvent(
+                        _selectedCategoryFilter, _isTaskCompletedFilter));
                   }
                 },
               ),

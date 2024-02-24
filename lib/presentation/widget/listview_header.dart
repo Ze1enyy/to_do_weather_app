@@ -5,16 +5,20 @@ class ListViewHeader extends StatelessWidget {
   const ListViewHeader({
     required this.selectedFilter,
     required this.isGrouppedByCategory,
-    required this.dropdownCallback,
+    required this.categoriesCallback,
     required this.cancelFilterCallback,
     required this.grouppedViewCallback,
+    required this.statusCallback,
+    required this.isTaskCompletedFilter,
     super.key,
   });
   final String? selectedFilter;
+  final bool? isTaskCompletedFilter;
   final bool isGrouppedByCategory;
-  final ValueChanged<Object?> dropdownCallback;
+  final ValueChanged<Object?> categoriesCallback;
   final ValueChanged<bool> grouppedViewCallback;
   final VoidCallback cancelFilterCallback;
+  final ValueChanged<bool?> statusCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,18 @@ class ListViewHeader extends StatelessWidget {
                       child: Text(e),
                     ))
                 .toList(),
-            onChanged: dropdownCallback,
+            onChanged: categoriesCallback,
+          ),
+          DropdownButton<bool?>(
+            value: isTaskCompletedFilter,
+            hint: const Text('Task status'),
+            items: List.from(FilterUtils.taskStatus.entries
+                .toList()
+                .map((e) => DropdownMenuItem(
+                      value: e.value,
+                      child: Text(e.key),
+                    ))),
+            onChanged: statusCallback,
           ),
           if (selectedFilter != null)
             IconButton(
@@ -39,7 +54,7 @@ class ListViewHeader extends StatelessWidget {
           const Spacer(),
           Row(
             children: [
-              const Text('Group tasks'),
+              const Text('Group'),
               Switch(
                 activeColor: Colors.blueAccent,
                 value: isGrouppedByCategory,

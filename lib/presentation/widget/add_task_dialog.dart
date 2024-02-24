@@ -19,10 +19,12 @@ Future<void> showAddTaskDialog(
 
 class DialogContent extends StatefulWidget {
   const DialogContent({
-    super.key,
     this.selectedFilter,
+    this.isCompletedFilter,
+    super.key,
   });
   final String? selectedFilter;
+  final bool? isCompletedFilter;
 
   @override
   State<DialogContent> createState() => _DialogContentState();
@@ -32,7 +34,7 @@ class _DialogContentState extends State<DialogContent> {
   final _titleTextController = TextEditingController();
   final _descriptionTextController = TextEditingController();
   final _bloc = sl<TaskBloc>();
-  String? _selectedItem;
+  String? _selectedCategory;
 
   @override
   void dispose() {
@@ -75,13 +77,13 @@ class _DialogContentState extends State<DialogContent> {
           DropdownButton(
             isExpanded: true,
             hint: const Text('Select category...'),
-            value: _selectedItem,
+            value: _selectedCategory,
             items: List.from(FilterUtils.categories)
                 .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                 .toList(),
             onChanged: (value) {
               setState(() {
-                _selectedItem = value.toString();
+                _selectedCategory = value.toString();
               });
             },
           )
@@ -98,14 +100,15 @@ class _DialogContentState extends State<DialogContent> {
         TextButton(
             onPressed: _titleTextController.text.isNotEmpty &&
                     _descriptionTextController.text.isNotEmpty &&
-                    _selectedItem != null
+                    _selectedCategory != null
                 ? () {
                     _bloc.add(AddTaskEvent(
                         title: _titleTextController.text,
                         description: _descriptionTextController.text,
-                        category: _selectedItem!));
+                        category: _selectedCategory!));
                     if (widget.selectedFilter != null) {
-                      _bloc.add(FilterByCategoryEvent(widget.selectedFilter!));
+                      _bloc.add(FilterByCategoryEvent(
+                          widget.selectedFilter, widget.isCompletedFilter));
                     } else {
                       _bloc.add(const GetTasksEvent());
                     }

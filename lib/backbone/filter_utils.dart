@@ -6,4 +6,9 @@ class FilterUtils {
     'Rest',
     'Hobby',
   ];
+
+  static const Map<String, bool> taskStatus = {
+    'Active': false,
+    'Completed': true,
+  };
 }

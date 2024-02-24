@@ -44,8 +44,17 @@ class HiveTaskGateway {
     return _taskBox!.values.toList();
   }
 
-  Future<List<Task>> getFilteredTasks(String category) async {
-    return _taskBox!.values.where((task) => task.category == category).toList();
+  Future<List<Task>> getFilteredTasks(
+      String? category, bool? isTaskCompleted) async {
+    List<Task> tasks = _taskBox!.values.toList();
+    if (category != null) {
+      tasks = tasks.where((task) => task.category == category).toList();
+    }
+    if (isTaskCompleted != null) {
+      tasks =
+          tasks.where((task) => task.isCompleted == isTaskCompleted).toList();
+    }
+    return tasks;
   }
 
   Future<void> removeTask(String id) async {

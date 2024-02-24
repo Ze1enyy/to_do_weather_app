@@ -4,14 +4,14 @@ import 'package:to_do_app/domain/services/task_service.dart';
 abstract class GetFilteredTasksUseCase {
   GetFilteredTasksUseCase();
 
-  Future<List<Task>> call(String category);
+  Future<List<Task>> call(String? category, bool? isTaskCompleted);
 }
 
 class HiveGetFilteredTasksUseCase implements GetFilteredTasksUseCase {
   HiveGetFilteredTasksUseCase(this.service);
   final TaskService service;
   @override
-  Future<List<Task>> call(String category) {
-    return service.getFilteredTasks(category);
+  Future<List<Task>> call(String? category, bool? isTaskCompleted) {
+    return service.getFilteredTasks(category, isTaskCompleted);
   }
 }
