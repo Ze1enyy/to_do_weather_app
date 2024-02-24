@@ -7,6 +7,7 @@ class HiveWeatherGateway {
 
   Future<void> openBox() async {
     _weatherBox = await Hive.openBox<Weather>('weather');
+    await _weatherBox?.clear();
   }
 
   Future<void> closeBox() async {
@@ -18,7 +19,7 @@ class HiveWeatherGateway {
   }
 
   Future<Weather> getCurrentWeather() async {
-    final weather = _weatherBox?.values.first;
+    final weather = _weatherBox?.values.last;
     if (weather != null) {
       return weather;
     } else {

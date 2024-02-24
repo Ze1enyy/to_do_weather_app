@@ -20,7 +20,8 @@ class TaskRepository implements TaskService {
   }
 
   @override
-  Future<List<Task>> getTasks() {
+  Future<List<Task>> getTasks() async {
+    await _gateway.openBox();
     return _gateway.getTasks();
   }
 

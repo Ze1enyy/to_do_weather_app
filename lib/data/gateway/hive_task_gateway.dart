@@ -13,6 +13,7 @@ class HiveTaskGateway {
     await _taskBox?.close();
   }
 
+  // Base58 is efficient and reliable solution as a unique identifier
   String generateBase58TaskId() {
     int unixTime = (DateTime.now().millisecondsSinceEpoch ~/ 1);
     const String base58Chars =
@@ -40,10 +41,6 @@ class HiveTaskGateway {
   }
 
   Future<List<Task>> getTasks() async {
-    if (_taskBox == null) {
-      await openBox();
-    }
-
     return _taskBox!.values.toList();
   }
 

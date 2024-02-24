@@ -11,9 +11,9 @@ class WeatherGatewayDecorator {
   final RemoteWeatherGateway _remoteWeatherGateway;
 
   Future<Weather> getCurrentWeather() async {
-    return Connectivity().checkConnectivity().then((currentConnection) async {
-      if (currentConnection == ConnectivityResult.wifi ||
-          currentConnection == ConnectivityResult.mobile) {
+    return Connectivity().checkConnectivity().then((result) async {
+      if (result == ConnectivityResult.wifi ||
+          result == ConnectivityResult.mobile) {
         final weather = await _remoteWeatherGateway.fetchCurrentWeather();
         await _hiveWeatherGateway.storeWeather(weather);
         return weather;

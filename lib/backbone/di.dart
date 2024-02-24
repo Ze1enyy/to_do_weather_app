@@ -3,6 +3,7 @@ import 'package:to_do_app/assembly/entity/weather_from_dto_factory.dart';
 import 'package:to_do_app/assembly/factory.dart';
 import 'package:to_do_app/assembly/model/weather_factory.dart';
 import 'package:to_do_app/data/gateway/connectivity_gateway.dart';
+import 'package:to_do_app/data/gateway/geolocation_gateway.dart';
 import 'package:to_do_app/data/gateway/hive_task_gateway.dart';
 import 'package:to_do_app/data/gateway/hive_weather_gateway.dart';
 import 'package:to_do_app/data/gateway/remote_weather_gateway.dart';
@@ -47,7 +48,7 @@ void _registerGateways() {
       () => HiveTaskGateway(),
     )
     ..registerLazySingleton<RemoteWeatherGateway>(
-      () => RemoteWeatherGateway(sl.get(), sl.get()),
+      () => RemoteWeatherGateway(sl.get(), sl.get(), sl.get()),
     )
     ..registerLazySingleton<HiveWeatherGateway>(
       () => HiveWeatherGateway(),
@@ -57,6 +58,9 @@ void _registerGateways() {
     )
     ..registerLazySingleton<ConnectivityGateway>(
       () => ConnectivityGateway(),
+    )
+    ..registerLazySingleton<GeolocationGateway>(
+      () => GeolocationGateway(),
     );
 }
 
@@ -108,6 +112,7 @@ void _registerBlocs() {
     );
 }
 
+// Registering singletons / Dependency injection
 Future<void> init() async {
   _registerGateways();
   _registerServices();

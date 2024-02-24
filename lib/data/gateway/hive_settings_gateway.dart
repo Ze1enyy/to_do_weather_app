@@ -6,6 +6,7 @@ import 'package:to_do_app/domain/entity/weather.dart';
 
 class HiveSettingsGateway {
   Future<void> initHive() async {
+    // Hive requires path to a directory to store data
     final directory = await getApplicationDocumentsDirectory();
     Hive.init(directory.path);
   }

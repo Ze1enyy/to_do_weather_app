@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         actions: [
           IconButton(
             onPressed: () => showAddTaskDialog(context, _selectedFilter),

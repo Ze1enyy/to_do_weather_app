@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:to_do_app/backbone/di.dart';
 import 'package:to_do_app/backbone/formatting_utils.dart';
+import 'package:to_do_app/gen/assets.gen.dart';
 import 'package:to_do_app/presentation/bloc/connectivity/bloc/connectivity_bloc.dart';
 import 'package:to_do_app/presentation/bloc/weather/bloc/weather_bloc.dart';
 import 'package:to_do_app/presentation/widget/weather_conditions.dart';
@@ -30,6 +31,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     return BlocListener<ConnectivityBloc, ConnectivityState>(
       bloc: _connectivityBloc,
       listener: (context, state) {
+        // listening for any changes in connection status
         _weatherBloc.add(const GetCurrentWeatherEvent());
       },
       child: BlocBuilder<WeatherBloc, WeatherState>(
@@ -66,6 +68,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                                   child: Center(
                                       child: Text(
                                     '${weather.temperature.toString()}°C',
+                                    textAlign: TextAlign.center,
                                     style: const TextStyle(color: Colors.white),
                                   ))),
                             ],
@@ -82,8 +85,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                               Image.network(
                                 weather.weatherImageUrl,
                                 errorBuilder: (context, error, stackTrace) {
+                                  // placeholder for offline mode, since weather icon are fetched from api
                                   return SvgPicture.asset(
-                                    'assets/svg/cloudiness.svg',
+                                    Assets.svg.cloudiness,
                                     height: 50,
                                     width: 50,
                                   );
@@ -102,16 +106,16 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                         children: [
                           WeatherCondition(
                               condition: '${weather.cloudiness}%',
-                              imageAsset: 'assets/svg/cloudiness.svg'),
+                              imageAsset: Assets.svg.cloudiness),
                           WeatherCondition(
                               condition: '${weather.humidity}%',
-                              imageAsset: 'assets/svg/humidity.svg'),
+                              imageAsset: Assets.svg.humidity),
                           WeatherCondition(
                               condition: '${weather.pressure} Pa',
-                              imageAsset: 'assets/svg/pressure.svg'),
+                              imageAsset: Assets.svg.pressure),
                           WeatherCondition(
                               condition: '${weather.windSpeed}km/h',
-                              imageAsset: 'assets/svg/wind.svg')
+                              imageAsset: Assets.svg.wind)
                         ],
                       )
                     ],

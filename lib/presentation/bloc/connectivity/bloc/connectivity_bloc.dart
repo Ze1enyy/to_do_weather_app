@@ -22,8 +22,8 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
       onData: (data) {
         return data == ConnectivityResult.wifi ||
                 data == ConnectivityResult.mobile
-            ? const _Offline()
-            : const _Online();
+            ? const _Online()
+            : const _Offline();
       },
     );
   }
