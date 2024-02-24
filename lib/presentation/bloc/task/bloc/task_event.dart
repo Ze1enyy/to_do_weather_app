@@ -7,7 +7,7 @@ class TaskEvent with _$TaskEvent {
       {required String title,
       required String description,
       required String category}) = AddTaskEvent;
-  const factory TaskEvent.removeTask(int index) = RemoveTaskEvent;
-  const factory TaskEvent.updateTaskStatus(int index) = UpdateTaskStatus;
+  const factory TaskEvent.removeTask(String id) = RemoveTaskEvent;
+  const factory TaskEvent.updateTaskStatus(String id) = UpdateTaskStatusEvent;
   const factory TaskEvent.filterBy(String category) = FilterByCategoryEvent;
 }

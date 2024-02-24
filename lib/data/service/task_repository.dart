@@ -2,8 +2,8 @@ import 'package:to_do_app/data/gateway/hive_task_gateway.dart';
 import 'package:to_do_app/domain/entity/task.dart';
 import 'package:to_do_app/domain/services/task_service.dart';
 
-class HiveTaskService implements TaskService {
-  HiveTaskService(this._gateway);
+class TaskRepository implements TaskService {
+  TaskRepository(this._gateway);
 
   final HiveTaskGateway _gateway;
 
@@ -12,11 +12,11 @@ class HiveTaskService implements TaskService {
       {required String title,
       required String description,
       required String category}) {
-    return _gateway.addTask(Task(
-        category: category,
-        title: title,
-        description: description,
-        isCompleted: false));
+    return _gateway.addTask(
+      category: category,
+      title: title,
+      description: description,
+    );
   }
 
   @override
@@ -25,13 +25,13 @@ class HiveTaskService implements TaskService {
   }
 
   @override
-  Future<void> removeTask(int index) {
-    return _gateway.removeTask(index);
+  Future<void> removeTask(String id) {
+    return _gateway.removeTask(id);
   }
 
   @override
-  Future<void> updateTaskStatus(int index) {
-    return _gateway.updateTaskStatus(index);
+  Future<void> updateTaskStatus(String id) {
+    return _gateway.updateTaskStatus(id);
   }
 
   @override

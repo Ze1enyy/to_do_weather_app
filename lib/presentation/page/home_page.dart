@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/backbone/di.dart';
+import 'package:to_do_app/domain/entity/task.dart';
 import 'package:to_do_app/presentation/bloc/task/bloc/task_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:to_do_app/presentation/widget/dialog_content.dart';
+import 'package:to_do_app/presentation/widget/add_task_dialog.dart';
+import 'package:to_do_app/presentation/widget/group_header.dart';
+import 'package:to_do_app/presentation/widget/listview_header.dart';
+import 'package:to_do_app/presentation/widget/task_tile.dart';
+import 'package:to_do_app/presentation/widget/weather_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,108 +17,123 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _bloc = sl<TaskBloc>();
+  final _taskBloc = sl<TaskBloc>();
+
   String? _selectedFilter;
+  bool isGrouppedByCategory = true;
 
   @override
   void initState() {
     super.initState();
-
-    _bloc.add(const GetTasksEvent());
+    _taskBloc.add(const GetTasksEvent());
   }
-
-  List<String> items = ['Test', 'Test1', 'Test2'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('To-do app'),
         actions: [
-          DropdownButton(
-            value: _selectedFilter,
-            items: List.from(items)
-                .map((e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e),
-                    ))
-                .toList(),
-            onChanged: (value) {
-              setState(() {
-                _selectedFilter = value.toString();
-              });
-              _bloc.add(FilterByCategoryEvent(_selectedFilter!));
-            },
+          IconButton(
+            onPressed: () => showAddTaskDialog(context, _selectedFilter),
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
           )
         ],
+        title: const Text(
+          'To-do Weather App',
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.blueAccent,
       ),
-      floatingActionButton: ElevatedButton(
-          onPressed: () {
-            showDialog<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return DialogContent(
-                  selectedFilter: _selectedFilter,
-                );
-              },
-            );
-          },
-          child: const Text('Add')),
       body: Column(
         children: [
+          const WeatherWidget(),
+          ListViewHeader(
+              selectedFilter: _selectedFilter,
+              isGrouppedByCategory: isGrouppedByCategory,
+              cancelFilterCallback: () {
+                setState(() {
+                  _selectedFilter = null;
+                  _taskBloc.add(const GetTasksEvent());
+                });
+              },
+              grouppedViewCallback: (value) {
+                setState(() {
+                  isGrouppedByCategory = value;
+                });
+              },
+              dropdownCallback: (value) {
+                setState(() {
+                  _selectedFilter = value.toString();
+                });
+                _taskBloc.add(FilterByCategoryEvent(_selectedFilter!));
+              }),
           BlocBuilder<TaskBloc, TaskState>(
-            bloc: _bloc,
+            bloc: _taskBloc,
             builder: (context, state) {
               return state.when(
                 initial: () => const SizedBox.shrink(),
-                loaded: (tasks) {
-                  return Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          key: UniqueKey(),
-                          title: Text(tasks[index].title),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(tasks[index].description),
-                              Text(tasks[index].category)
-                            ],
-                          ),
-                          leading: Switch(
-                            value: tasks[index].isCompleted,
-                            onChanged: (value) {
-                              _bloc.add(UpdateTaskStatus(index));
-                              if (_selectedFilter == null) {
-                                _bloc.add(GetTasksEvent());
-                              } else {
-                                _bloc.add(
-                                    FilterByCategoryEvent(_selectedFilter!));
-                              }
-                            },
-                          ),
-                          trailing: IconButton(
-                              onPressed: () {
-                                _bloc.add(RemoveTaskEvent(index));
-                                if (_selectedFilter == null) {
-                                  _bloc.add(GetTasksEvent());
-                                } else {
-                                  _bloc.add(
-                                      FilterByCategoryEvent(_selectedFilter!));
-                                }
-                              },
-                              icon: const Icon(Icons.delete)),
-                        );
-                      },
-                      itemCount: tasks.length,
-                    ),
-                  );
+                loaded: (loadedTasks) {
+                  List<Task> tasks = [...loadedTasks];
+
+                  if (isGrouppedByCategory) {
+                    tasks.sort((a, b) => a.category.compareTo(b.category));
+                  }
+
+                  return _buildTaskListView(tasks);
                 },
               );
             },
           )
         ],
+      ),
+    );
+  }
+
+  Widget _buildTaskListView(List<Task> tasks) {
+    return Expanded(
+      child: ListView.builder(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          bool isFirstInCategory = isGrouppedByCategory &&
+              (index == 0 ||
+                  tasks[index].category != tasks[index - 1].category);
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (isFirstInCategory)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GroupHeader(category: tasks[index].category),
+                ),
+              TaskTile(
+                task: tasks[index],
+                removeTaskCallback: () {
+                  _taskBloc.add(RemoveTaskEvent(tasks[index].id));
+                  if (_selectedFilter == null) {
+                    _taskBloc.add(const GetTasksEvent());
+                  } else {
+                    _taskBloc.add(FilterByCategoryEvent(_selectedFilter!));
+                  }
+                },
+                toggleStatusCallback: (value) {
+                  _taskBloc.add(UpdateTaskStatusEvent(tasks[index].id));
+                  if (_selectedFilter == null) {
+                    _taskBloc.add(const GetTasksEvent());
+                  } else {
+                    _taskBloc.add(FilterByCategoryEvent(_selectedFilter!));
+                  }
+                },
+              ),
+            ],
+          );
+        },
+        itemCount: tasks.length,
       ),
     );
   }

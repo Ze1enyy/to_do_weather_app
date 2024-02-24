@@ -17,32 +17,22 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       : super(const _Initial()) {
     on<TaskEvent>((event, emit) async {
       await event.when(
-        getTasks: () {
-          return _getTasks(emit);
-        },
-        addTask: (title, description, category) {
-          return _addTask(emit,
-              title: title, description: description, category: category);
-        },
-        removeTask: (index) {
-          return _removeTask(index);
-        },
-        filterBy: (category) {
-          return _filterByCategory(emit, category);
-        },
-        updateTaskStatus: (index) {
-          return _updateTaskStatus(index);
-        },
+        getTasks: () => _getTasks(emit),
+        addTask: (title, description, category) => _addTask(emit,
+            title: title, description: description, category: category),
+        removeTask: _removeTask,
+        filterBy: (category) => _filterByCategory(emit, category),
+        updateTaskStatus: _updateTaskStatus,
       );
     });
   }
 
-  Future<void> _removeTask(int index) {
-    return _removeTaskUseCase.call(index);
+  Future<void> _removeTask(String id) {
+    return _removeTaskUseCase.call(id);
   }
 
-  Future<void> _updateTaskStatus(int index) {
-    return _updateTaskUseCase(index);
+  Future<void> _updateTaskStatus(String id) {
+    return _updateTaskUseCase(id);
   }
 
   Future<void> _filterByCategory(Emitter<TaskState> emit, String category) {

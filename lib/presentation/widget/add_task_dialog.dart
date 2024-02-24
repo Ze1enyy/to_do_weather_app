@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/backbone/di.dart';
+import 'package:to_do_app/backbone/filter_utils.dart';
 import 'package:to_do_app/presentation/bloc/task/bloc/task_bloc.dart';
+
+Future<void> showAddTaskDialog(
+  BuildContext context,
+  String? selectedFilter,
+) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return DialogContent(
+        selectedFilter: selectedFilter,
+      );
+    },
+  );
+}
 
 class DialogContent extends StatefulWidget {
   const DialogContent({
@@ -33,8 +48,6 @@ class _DialogContentState extends State<DialogContent> {
     });
   }
 
-  List<String> items = ['Test', 'Test1', 'Test2'];
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -47,16 +60,23 @@ class _DialogContentState extends State<DialogContent> {
             onChanged: (value) {
               setState(() {});
             },
+            decoration: const InputDecoration(hintText: 'Title'),
           ),
-          TextField(
-            controller: _descriptionTextController,
-            onChanged: (value) {
-              setState(() {});
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: TextField(
+              controller: _descriptionTextController,
+              onChanged: (value) {
+                setState(() {});
+              },
+              decoration: const InputDecoration(hintText: 'Description'),
+            ),
           ),
           DropdownButton(
-            value: _selectedItem ?? items[0],
-            items: List.from(items)
+            isExpanded: true,
+            hint: const Text('Select category...'),
+            value: _selectedItem,
+            items: List.from(FilterUtils.categories)
                 .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                 .toList(),
             onChanged: (value) {

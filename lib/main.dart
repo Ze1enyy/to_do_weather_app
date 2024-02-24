@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:to_do_app/data/gateway/hive_settings_gateway.dart';
 import 'package:to_do_app/data/gateway/hive_task_gateway.dart';
 
@@ -8,9 +9,9 @@ import 'package:to_do_app/backbone/di.dart' as di;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
+  await dotenv.load();
   final hiveSettingsGateway = HiveSettingsGateway();
   HiveTaskGateway taskGateway = HiveTaskGateway();
-
   await hiveSettingsGateway.initHive();
   await hiveSettingsGateway.registerAdapters();
   await taskGateway.openBox();

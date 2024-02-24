@@ -7,6 +7,6 @@ abstract class TaskService {
       {required String title,
       required String description,
       required String category});
-  Future<void> removeTask(int index);
-  Future<void> updateTaskStatus(int index);
+  Future<void> removeTask(String id);
+  Future<void> updateTaskStatus(String id);
 }
